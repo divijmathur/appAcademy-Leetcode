@@ -149,9 +149,61 @@ var getRow = function(rowIndex) {
 // Output: 5->4->3->2->1->NULL
 
 var reverseList = function(head){
-  let [prev,current] = [null,head];
-  while(current){
-    [current.next,prev,current] = [prev,current,current.next];
+  if(head || head.next === null) return head;
+  var p = reverseList(head.next);
+  head.next.next=head;
+  head.next=null;
+  return p;
+}
+
+
+
+// You are climbing a stair case. It takes n steps to reach to the top.
+
+// Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+// Note: Given n will be a positive integer.
+
+var climbStairs = function(n){
+  if(n===0) return 0;
+  if(n===1) return 1;
+  if(n===2) return 2;
+  var arr = [1,2];
+  for(var i = 2; i < n; i++){
+    arr[i] = arr[i-1] + arr[i-2];
   }
-  return prev;
+  return arr[n-1];
+}
+
+// Given a binary tree, find its maximum depth.
+
+// The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+// Note: A leaf is a node with no children.
+
+var maxDepth = function(root){
+  return (root === null ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right)));
+}
+
+var myPow = function(x,n){
+  if(n===0) return 1;
+  let pow = Math.abs(n);
+  let result = pow % 2 === 0 ? myPow(x*x,pow/2) : myPow(x*x,(pow-1)/2) * x;
+  return n < 0 ? 1/result : result;
+}
+
+// Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+
+// Input: 1->2->4, 1->3->4
+// Output: 1->1->2->3->4->4
+
+var mergeTwoList = (l1,l2) => {
+  if (!l1) return l2;
+  if (!l2) return l1;
+  if(l1.val<l2.val){
+    l1.next=mergeTwoList(l1.next,l2);
+    return l1;
+  }
+  l2.next=mergeTwoList(l1,l2.next);
+  return l2;
 }
