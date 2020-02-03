@@ -207,3 +207,32 @@ var mergeTwoList = (l1,l2) => {
   l2.next=mergeTwoList(l1,l2.next);
   return l2;
 }
+// On the first row, we write a 0. Now in every subsequent row, we look at the previous row and replace each occurrence of 0 with 01, and each occurrence of 1 with 10.
+
+// Given row N and index K, return the K-th indexed symbol in row N. (The values of K are 1-indexed.) (1 indexed).
+
+var kthGrammar = function(N,K){
+  let binary = (k-1).toString(2);
+  let array = binary.split('');
+  let count = 0;
+  for(var i = 0; i < array.length;i++){
+    if(array[i]==='1'){
+      count++;
+    }
+  }
+  return count & 1;
+};
+
+// Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
+
+var generateTrees = function(n,l=1,r=n,res=[]){
+  for(let i = 1; i<= r; i++){
+    for(const left of generateTrees(n,l,i-1)){
+      for(const right of generateTrees(n,i+1,r)){
+        res.push({val: i,left,right})
+      }
+    }
+  }
+  return n ? res.length ? res : [null] : [];
+}
+
